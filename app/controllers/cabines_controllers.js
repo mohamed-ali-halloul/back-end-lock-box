@@ -33,8 +33,8 @@ exports.getOne= (req,res)=>{
     })
 }
 exports.deleteOne =(req,res)=> {
-    const {idcabine} = req.params
-Cabine.destroy({where : {idcabine :idcabine}})
+    const {id} = req.params
+Cabine.destroy({where : {id :id}})
 .then(ressource => {
     if(ressource === 0) return res.status(404).json({msg:"not found"})
     res.status(200).json({msg :"Deleted Resource"})
