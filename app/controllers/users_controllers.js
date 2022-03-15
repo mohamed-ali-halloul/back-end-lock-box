@@ -12,10 +12,9 @@ const {body} = req
 const {error} = userValidation(body).userValidationSchema
 if(error) return res.status(401).json(error.details[0].message)
 bcrypt.hash(body.password, 10)
-console.log(body)
 .then(hash => {
     if(!hash)return res.status(500).json({msg:"seveur error"})
-    if(body) return res.status(400).json({msg:"requirement "})
+    
     delete body.password
     new User({...body, password : hash})
     .save()
@@ -24,7 +23,7 @@ console.log(body)
         res.status(201).json({msg:"user created"})
     })
     .catch((error)=> res.status(500).json(error))
-    i
+    
 })
 .catch((error)=> res.status(500).json(error))
 
