@@ -62,13 +62,15 @@ exports.deleteAll=(req,res)=>{
 
 
 exports.update = (req,res) => {
-    const {idcabine} = req.params
+    const {id} = req.params
 
     const {body} =req ;
-Cabine.findByPk(idcabine)
+Cabine.findByPk(id)
 .then(cabine => {
     if(!cabine) return res.status(404).json({msg :"not found"})  
 cabine.name = body.name
+cabine.id=body.id
+cabine.ref=body.ref
 cabine.save()
 .then(()=> res.status(201).json({msg:"updated ressource"}))
 .catch((error)=> res.status(500).json(error));

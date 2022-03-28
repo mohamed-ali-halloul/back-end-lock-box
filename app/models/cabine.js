@@ -17,7 +17,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Cabine.init({
     ref: DataTypes.STRING,
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    network_type:DataTypes.STRING,
+    mode:DataTypes.STRING,
+    shortLink: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Cabine',

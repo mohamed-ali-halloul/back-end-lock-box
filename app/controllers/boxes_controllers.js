@@ -67,6 +67,8 @@ Box.findByPk(id)
 .then(box => {
     if(!box) return res.status(404).json({msg :"not found"})  
 box.name = body.name
+box.ref=body.ref
+box.id=body.id
 box.size = body.size
 box.price = body.price
 box.save()

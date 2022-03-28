@@ -1,20 +1,24 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('boxes', {
+    await queryInterface.createTable('tarifs', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ref: {
-        type: Sequelize.STRING,
-        allowNull:false    
+      duration: {
+        type: Sequelize.STRING
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull:false 
+      price: {
+        type: Sequelize.DOUBLE
+      },
+      date_debut: {
+        type: Sequelize.DATE
+      },
+      display: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -24,17 +28,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      idcabine: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
       idsize: {
         allowNull: false,
         type: Sequelize.INTEGER
       }
-    })
+    });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('boxes');
+    await queryInterface.dropTable('tarifs');
   }
 };
