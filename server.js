@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerJsDocs));
 const db =require("./app/models");
-
+require("./app/routes/tarifs_routes")(app);
 require("./app/routes/users_routes")(app);
 require("./app/routes/boxes_routes")(app);
 require("./app/routes/cabines_routes")(app);

@@ -71,6 +71,9 @@ Cabine.findByPk(id)
 cabine.name = body.name
 cabine.id=body.id
 cabine.ref=body.ref
+cabine.network_type= body.network_type
+cabine.mode= body.mode
+cabine.shortLink = body.shortLink
 cabine.save()
 .then(()=> res.status(201).json({msg:"updated ressource"}))
 .catch((error)=> res.status(500).json(error));

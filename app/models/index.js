@@ -37,4 +37,5 @@ db.Sequelize = Sequelize;
 db.users = require("./user")(sequelize,Sequelize);
 db.boxes = require("./box")(sequelize,Sequelize);
 db.cabines = require("./cabine")(sequelize,Sequelize);
+db.tarifs=require("./tarifs")(sequelize,Sequelize);
 module.exports = db;
