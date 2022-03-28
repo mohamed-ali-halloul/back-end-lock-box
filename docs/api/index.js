@@ -15,7 +15,11 @@ const deleteCabine = require("./cabines/delete-cabine");
 const updateCabine =require("./cabines/update-cabine");
 const inscriptionUser = require("./users/inscription-user");
 const connexionUser = require("./users/connexion-user");
-
+const getTarifs= require("./tarifs/get-tarifs");
+const getTarif=require("./tarifs/get-tarif");
+const createTarif= require("./tarifs/create-tarif");
+const deleteTarif= require("./tarifs/delete-tarif");
+const updateTarif=require("./tarifs/update-tarif");
 module.exports ={
 paths : {
 '/users': {
@@ -48,6 +52,15 @@ paths : {
     ...getCabine,
     ...updateCabine,
     ...deleteCabine
+},
+'./tarifs':{
+    ...getTarifs,
+    ...createTarif
+},
+'./tarifs/{id}':{
+    ...getTarif,
+    ...updateTarif,
+    ...deleteTarif
 }
 
 }}

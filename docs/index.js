@@ -5,6 +5,7 @@ const tags = require('./tags');
 const users =require('./api');
 const boxes =require('./api');
 const cabines =require('./api');
+const tarifs= require('./api');
 module.exports = {
     ...basicInfo,
     ...servers,
@@ -12,5 +13,6 @@ module.exports = {
     ...tags,
     ...users,
     ...boxes,
-    ...cabines
+    ...cabines,
+    ...tarifs
 };

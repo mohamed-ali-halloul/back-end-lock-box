@@ -55,21 +55,43 @@ module.exports ={
                     description: "name of box", // desc
                     example: "box54", // example of a completed value
                   },
-                  size: {
+                  status: {
                       type :"string",
-                      description:"size of box",
-                      exmaple:"Small",
+                      description:"status of box",
+                      exmaple:"",
                   },
-                  price: {
-                      type:"double",
-                      description:"price of box",
+                  code: {
+                      type:"string",
+                      description:"code of box",
                       example:"12",
                   },
-                  idcabine : {
+                  availibility: {
+                    type:"integer",
+                    description:"availibility of box",
+                    example:"1",
+                },
+                boardId: {
+                  type:"string",
+                  description:"boardId of box",
+                  example:"1",
+              },
+              doorNumber: {
+                type:"string",
+                description:"doorNumber of box",
+                example:"1",
+            },
+            idcabine : {
                     type: "integer",
                     description :"num cabine de box",
                     example: "1",
                   },
+            idsize:
+              {
+                type: "integer",
+                description :"size de box",
+                example: "1",
+              },
+            
                 },
               },
            // cabine model
@@ -91,11 +113,83 @@ module.exports ={
                 description: "name of cabine", // desc
                 example: "cabine54", // example of a completed value
               },
+              network_type: {
+                type: "string", // data type
+                description: "type of netowrk", // desc
+                example: "wifi", // example of a completed value
+              },
+              mode: {
+                type: "string", // data type
+                description: "mode", // desc
+                example: "wifi", // example of a completed value
+              },
+              shortLink: {
+                type: "string", // data type
+                description: "", // desc
+                example: "", // example of a completed value
+              },
               
             
             },
           },
-
+          //tarifs model 
+          Tarif: {
+            type: "object", // data type
+                properties: {
+                  id: {
+                    type: "integer", // data-type
+                    description: "tarif identification number", // desc
+                    example: "001", // example of an id
+                  },
+                  duration : {
+                    type: "string", // data type
+                    description: "", // desc
+                    example: "", // example of a completed value
+                  },
+                  price:{
+                    type:"integer",
+                    description:"price ",
+                    example:"5",
+                  },
+                  date_debut:{
+                    type:"date",
+                    description:"",
+                    example:"14:30",
+                  },
+                  display:{
+                    type:"integer",
+                    description:"",
+                    example:"",
+                  },
+                  idsize:{
+                    type:"integer",
+                    description:"",
+                    example:"",
+                  },
+                },
+          },
+          // size model
+          Size: {
+            type: "object", // data type
+                properties: {
+                  id: {
+                    type: "integer", // data-type
+                    description: "Size identification number", // desc
+                    example: "001", // example of an id
+                  },
+                  name : {
+                    type: "string", // data type
+                    description: "", // desc
+                    example: "Small", // example of a completed value
+                  },
+                  value:{
+                    type:"string",
+                    description:"value ",
+                    example:"Small",
+                  },
+                  
+                },
+          },
               // error model
               Error: {
                 type: "object", //data type
