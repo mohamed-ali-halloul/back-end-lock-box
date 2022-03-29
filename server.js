@@ -17,6 +17,7 @@ require("./app/routes/tarifs_routes")(app);
 require("./app/routes/users_routes")(app);
 require("./app/routes/boxes_routes")(app);
 require("./app/routes/cabines_routes")(app);
+require("./app/routes/sizes_routes")(app);
 app.listen(3001,()=>{
     console.log("server is running on port 3001");
 })

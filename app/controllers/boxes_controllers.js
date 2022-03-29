@@ -5,7 +5,9 @@ const boxValidation =require ("../validators/box_validation")
 
 exports.create= (req,res)=>{
     const {body}=req 
+    console.log(body);
     const{error}=boxValidation(body)
+   
     if(error) return res.status(401).json(error.details[0].message)
      
     Box.create({... body})

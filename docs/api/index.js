@@ -20,6 +20,7 @@ const getTarif=require("./tarifs/get-tarif");
 const createTarif= require("./tarifs/create-tarif");
 const deleteTarif= require("./tarifs/delete-tarif");
 const updateTarif=require("./tarifs/update-tarif");
+const getSizes=require("./sizes/get-sizes");
 module.exports ={
 paths : {
 '/users': {
@@ -53,14 +54,17 @@ paths : {
     ...updateCabine,
     ...deleteCabine
 },
-'./tarifs':{
+'/tarifs':{
     ...getTarifs,
     ...createTarif
 },
-'./tarifs/{id}':{
+'/tarifs/{id}':{
     ...getTarif,
     ...updateTarif,
     ...deleteTarif
+},
+'/sizes':{
+    ...getSizes
 }
 
 }}

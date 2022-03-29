@@ -19,7 +19,7 @@ exports.create= (req,res)=>{
 }
 exports.getAll=(req,res)=>
 {
-Box.findAll({attributes : {exclude : ["createdAt","updatedAt"]}})
+Tarif.findAll({attributes : {exclude : ["createdAt","updatedAt"]}})
 .then(tarifs =>{res.status(200).json(tarifs)})
 .catch(error => {
       
