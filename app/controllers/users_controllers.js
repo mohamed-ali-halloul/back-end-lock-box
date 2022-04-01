@@ -128,24 +128,3 @@ user.save()
 .catch((error)=> res.status(500).json(error));
 }
   
-// exports.update=(req,res)=>{
-//     User.findByPk(id);
-//     if(user){
-//         user.name = req.body.username || user.username;
-//         user.email = req.body.email || user.email;
-//         if(req.body.password){
-//             user.password = req.body.password;
-//         }
-//         const updatedUser =  user.save();
-//         res.json({
-//             id: updatedUser.id,
-//             username: updatedUser.username,
-//             email: updatedUser.email,
-//             token: generateToken(updatedUser.id),
-//           });
- 
-//     } else{
-//         res.status(404);
-//         throw new Error("user not found");
-//     }
-// }
