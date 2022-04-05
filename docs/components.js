@@ -168,6 +168,20 @@ module.exports ={
                   },
                 },
           },
+          // door model
+          Door: {
+type: "object", 
+properties :{
+  code: {
+    type:"string",
+    description:"code of box",
+    example:"12",
+},
+
+}
+
+          },
+
           // size model
           Size: {
             type: "object", // data type

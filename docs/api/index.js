@@ -21,6 +21,7 @@ const createTarif= require("./tarifs/create-tarif");
 const deleteTarif= require("./tarifs/delete-tarif");
 const updateTarif=require("./tarifs/update-tarif");
 const getSizes=require("./sizes/get-sizes");
+const gererDoor=require("./door/gerer-door");
 module.exports ={
 paths : {
 '/users': {
@@ -65,6 +66,10 @@ paths : {
 },
 '/sizes':{
     ...getSizes
+},
+'/door/{id}':{
+    ...gererDoor
 }
+
 
 }}

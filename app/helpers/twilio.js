@@ -10,7 +10,7 @@ const sendSms= (message)=>{
     .create({
         body : message,
         from : process.env.TWILIO_PHONE_NUMBER,
-        to : "+216 95 759 342"
+        to : "+216 52 784 584"
     })
     .then(message=> console.log(message.sid));
 }
