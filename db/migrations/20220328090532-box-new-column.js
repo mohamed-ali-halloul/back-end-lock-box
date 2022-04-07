@@ -6,7 +6,7 @@ module.exports = {
     try{
       await queryInterface.addColumn('boxes','status', 
       {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM('WORKING','OUT_OF_SERVICE'),
   } ,{transaction}
       );
       await queryInterface.addColumn(

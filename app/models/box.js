@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   Box.init({
     ref: DataTypes.STRING,
     name: DataTypes.STRING,
-    status:DataTypes.STRING,
+    status:DataTypes.ENUM('WORKING','OUT_OF_SERVICE'),
     availibility:DataTypes.INTEGER,
     code:DataTypes.STRING,
     boardId:DataTypes.STRING,
