@@ -185,6 +185,11 @@ properties :{
 MobileService : {
   type: "object",
 properties:{
+  id: {
+    type: "integer", // data-type
+    description: "tarif identification number", // desc
+    example: "001", // example of an id
+  },
   code:{type:"string",
   description:"code of box",
   example:"12",}

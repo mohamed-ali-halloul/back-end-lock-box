@@ -1,14 +1,14 @@
 module.exports = {
     get:{
         tags:["Mobile serive Operations"],
-        description: "Get all box by id cabine",
-        operationId: "getAllBoxbyIdCabine",
+        description: "Get a box",
+        operationId: "getBox",
         parameters:[
             {
-                name:"id ",
+                name:"id",
                 in:"path",
                 schema:{
-                    $ref:"#/components/schemas/Box/properties/idcabine"
+                    $ref:"#/components/schemas/Box/properties/id"
                 },
                 required:true,
                 description: "A single box id"

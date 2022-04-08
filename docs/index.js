@@ -7,6 +7,8 @@ const boxes =require('./api');
 const cabines =require('./api');
 const tarifs= require('./api');
 const sizes=require('./api');
+const door = require('./api');
+const mobile =  require('./api');
 module.exports = {
     ...basicInfo,
     ...servers,
@@ -16,5 +18,7 @@ module.exports = {
     ...boxes,
     ...cabines,
     ...tarifs,
-    ...sizes
+    ...sizes,
+    ...door,
+    ...mobile
 };

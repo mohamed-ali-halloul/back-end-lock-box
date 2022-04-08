@@ -24,20 +24,27 @@ const getSizes=require("./sizes/get-sizes");
 const gererDoor=require("./door/gerer-door");
 const displayallbox =require("./mobile/displayallbox");
 const renderbox=require("./mobile/renderbox");
+const verifbox=require("./mobile/verifbox");
+const reservebox = require("./mobile/reservebox");
 module.exports ={
 paths : {
 '/users': {
    
     ...getUsers,
     ...createUser,
-    ...inscriptionUser
+    
  
+},
+'/users/inscription':{
+    ...inscriptionUser
+},
+'/users/connexion':{
+    ...connexionUser
 },
 '/users/{id}':{
     ...getUser,
     ...updateUser,
     ...deleteUser,
-    ...connexionUser
 },
 '/boxes': {
     ...getBoxes,
@@ -77,5 +84,11 @@ paths : {
 },
 '/mobile/render/{id}':{
     ...renderbox
+},
+'/mobile/verif/{id}':{
+    ...verifbox
+},
+'/mobile/reserve/{id}':{
+    ...reservebox
 }
 }}

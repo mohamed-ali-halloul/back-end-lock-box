@@ -2,7 +2,7 @@ module.exports = {
     get:{
         tags:["Cabine Operations"],
         description: "Get a cabine",
-        operationId: "gtCabine",
+        operationId: "getCabine",
         parameters:[
             {
                 name:"id",

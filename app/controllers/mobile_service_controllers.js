@@ -4,6 +4,7 @@ const Op = db.Sequelize.Op;
 
 exports.displayallboxesbyidcabine=(req,res)=>{
     const {id} = req.params
+    const{body}=req;
     console.log(id);
     Box.findAll({where : {idcabine: id}}, {attributes : {exclude : ["createdAt","updatedAt"]}})
     .then(boxes =>{res.status(200).json(boxes)})
@@ -32,6 +33,8 @@ exports.reservebox=(req,res)=>{
     }
 exports.verifboxid=(req,res)=>{
     const {id}=req.params;
+    console.log("id",id);
+    const{body}=req;
     Box.findByPk(id)
     .then(box=>{
         if(!box)return res.status(404).json({msg:"not found"});

@@ -25,8 +25,8 @@ Cabine.findAll({attributes : {exclude : ["createdAt","updatedAt"]}})
 
 } 
 exports.getOne= (req,res)=>{
-    const {idcabine} = req.params
-    Cabine.findByPk(idcabine)
+    const {id} = req.params
+    Cabine.findByPk(id)
     .then(cabine =>{
         if(!cabine) return res.status(404).json({msg :"not found"})
         res.status(200).json(cabine)
