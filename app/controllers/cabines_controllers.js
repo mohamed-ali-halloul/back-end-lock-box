@@ -13,6 +13,50 @@ exports.create= (req,res)=>{
     .catch(error =>{
         res.status(500).json(error)
     });
+    const link=  
+
+{
+    
+  "dynamicLinkInfo": {
+    "domainUriPrefix": "https://locbox1.page.link",
+    "link": `https://diginov.tech/?cabineId=${cabine.id}`,
+    "androidInfo": {
+      "androidPackageName": "com.diginov.loc_box"
+    },
+    "iosInfo": {
+      "iosBundleId": "com.diginov.locBox"
+    }
+  }
+}
+console.log(link);
+const options= {
+    method: 'POST',
+    uri:' https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyAkAxD4Cjgm33EW_vnCrI-NcwSJEoMW548',
+    body: link,
+    json: true,
+    headers:{
+        'Content-Type': 'application/json'
+
+    }
+}
+ 
+request(options)
+.then(async(response)=>{
+console.log('resp: ',response);
+cabine.shortLink = response.shortLink;
+await cabine.save();
+return res.status(200).send(
+    { 
+        
+        status:"success",
+        cabine : cabine
+    }
+);
+
+})
+.catch((error)=>{
+    res.status(404).json(error)
+})
 }
 exports.getAll=(req,res)=>
 {

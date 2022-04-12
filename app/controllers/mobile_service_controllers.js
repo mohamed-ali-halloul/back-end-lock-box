@@ -1,7 +1,7 @@
 const db = require("../models");
 const Box = db.boxes;
 const Op = db.Sequelize.Op;
-
+var request = require('request-promise');
 exports.displayallboxesbyidcabine=(req,res)=>{
     const {id} = req.params
     const{body}=req;
@@ -64,3 +64,51 @@ exports.renderbox=(req,res)=>{
         
             .catch((error)=> res.status(500).json(error));
             }
+    exports.shortlink=(req,res)=>{
+    const {id}= req.params
+
+    
+const link=  
+
+{
+    
+  "dynamicLinkInfo": {
+    "domainUriPrefix": "https://locbox1.page.link",
+    "link": "https://diginov.tech/",
+    "androidInfo": {
+      "androidPackageName": "com.diginov.loc_box"
+    },
+    "iosInfo": {
+      "iosBundleId": "com.diginov.locBox"
+    }
+  }
+}
+console.log(link);
+const options= {
+    method: 'POST',
+    uri:' https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyAkAxD4Cjgm33EW_vnCrI-NcwSJEoMW548',
+    body: link,
+    json: true,
+    headers:{
+        'Content-Type': 'application/json'
+
+    }
+}
+ 
+request(options)
+.then(async(response)=>{
+console.log('resp: ',response);
+return res.status(200).send(
+    { 
+        response,
+        status:"success",
+    
+    }
+);
+
+})
+.catch((error)=>{
+    res.status(404).json(error)
+})
+
+}
