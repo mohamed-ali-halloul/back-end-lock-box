@@ -1,18 +1,21 @@
 const db = require("../models");
 const Cabine = db.cabines;
 const cabineValidation = require("../validators/cabine_validation");
-exports.create= (req,res)=>{
+var request = require('request-promise');
+
+exports.create= async(req,res)=>{
     const {body}=req 
     const{error}=cabineValidation(body)
     if(error) return res.status(401).json(error.details[0].message)
      
-    Cabine.create({... body})
-    .then(()=>{
-        res.status(201).json({msg:"creation du box"})
-    })
-    .catch(error =>{
-        res.status(500).json(error)
-    });
+    const cabine = Cabine.build({... body})
+    // .then(()=>{
+    //     res.status(201).json({msg:"creation du box"})
+    // })
+    // .catch(error =>{
+    //     res.status(500).json(error)
+    // });
+    await cabine.save();
     const link=  
 
 {
