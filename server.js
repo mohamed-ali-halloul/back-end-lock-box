@@ -5,7 +5,18 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerJsDocs= require('./docs/index');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const mqtt = require("mqtt");
+
 require('./app/middlewares/authJwt');
+var client = mqtt.connect({
+    host: process.env.MQTT_HOSTNAME,
+    port:1883,
+    username:"halloul",
+password:"654321"
+});
+const openDoor="(machine id)/OpenDoor";
+const OpenDoorRequest="(machine id)/OpenDoorRequest/Reply";
+client.on
 app.use(morgan("dev"));
 app.use (express.json());
 app.use(cookieParser());
