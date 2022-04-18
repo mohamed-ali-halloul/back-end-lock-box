@@ -6,6 +6,7 @@ module.exports= app =>{
     router.post("/reserve/:id",mobile.reservebox);
     router.post("/render/:id",mobile.renderbox);
     router.post("/shortlink",mobile.shortlink);
+    router.post("/opendoor/:id",mobile.openDoor);
     app.use('/api/mobile',router);
 
 }

@@ -1,6 +1,8 @@
 const db = require("../models");
 const Box = db.boxes;
 const Op = db.Sequelize.Op;
+const mqtt = require('mqtt');
+
 var request = require("request-promise");
 exports.displayallboxesbyidcabine = (req, res) => {
   const { id } = req.params;
@@ -106,3 +108,46 @@ exports.shortlink = (req, res) => {
       res.status(404).json(error);
     });
 };
+ exports.openDoor=(req,res)=>{
+   const {id}= req.params;
+   Box.findByPk(id).then((box)=>{
+    if (!box) return res.status(404).json({ msg: "not found" });
+    var client = mqtt.connect({
+      host: '51.91.182.130',
+      port:1883,
+      username:"halloul",
+  password:"654321"
+  });
+  const getData = () => ({
+     
+          DoorNumber: box.doorNumber,
+          BoardID: box.boardId,
+          
+      
+  })
+  const topic = 'M_01/OpenDoor';
+  if (box.code === body.code){
+  client.on('connect',function(){
+      console.log('server connected to Mqtt broker');
+      client.subscribe("#" , function(err){
+          if(!err){
+          client.publish(topic, JSON.stringify(getData()))
+              return true
+          }
+          console.log(err);
+      });
+  }); 
+  client.on('message',function(topic,message){
+      console.log(`Message incoming topic:`, topic)
+      console.log(message.toString());
+  });
+  client
+      .on('error', function (topic, payload) {
+          console.log('Error:', topic, payload.toString());
+      });
+    }else {
+      res.status(404).json({ msg: "code is wrong" });
+    }
+   })
+  
+ }
