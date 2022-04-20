@@ -1,5 +1,6 @@
 const db = require("../models");
-const Cabine = db.cabines;
+const Cabine = db.cabine;
+const Box = db.box;
 const cabineValidation = require("../validators/cabine_validation");
 var request = require("request-promise");
 
@@ -64,7 +65,7 @@ exports.getAll = (req, res) => {
 };
 exports.getOne = (req, res) => {
   const { id } = req.params;
-  Cabine.findByPk(id).then((cabine) => {
+  Cabine.findByPk(id, {include: ['boxes']}).then((cabine) => {
     if (!cabine) return res.status(404).json({ msg: "not found" });
     res.status(200).json(cabine);
   });

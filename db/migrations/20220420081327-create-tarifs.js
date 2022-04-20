@@ -20,6 +20,16 @@ module.exports = {
       display: {
         type: Sequelize.INTEGER
       },
+      idsize:{
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'sizes',
+          key: 'id',
+          as: 'idsize',
+        }
+
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -27,10 +37,6 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      idsize: {
-        allowNull: false,
-        type: Sequelize.INTEGER
       }
     });
   },

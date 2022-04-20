@@ -1,7 +1,7 @@
 const bcrypt=require("bcrypt");
 const db =require("../models");
 const user = require("../models/user");
-const User =db.users;
+const User =db.User;
 const jwt =require('jsonwebtoken');
 const Op = db.Sequelize.Op;
 const userValidation =require('../validators/user_validation')

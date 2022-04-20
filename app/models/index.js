@@ -27,16 +27,14 @@ fs
   });
 
 Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
+ console.log( db[modelName], '---')
+if (db[modelName].associate) {
     db[modelName].associate(db);
+
   }
 });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-db.users = require("./user")(sequelize,Sequelize);
-db.boxes = require("./box")(sequelize,Sequelize);
-db.cabines = require("./cabine")(sequelize,Sequelize);
-db.tarifs=require("./tarifs")(sequelize,Sequelize);
-db.sizes=require("./sizes")(sequelize,Sequelize);
+
 module.exports = db;

@@ -6,7 +6,7 @@ const boxValdiationSchema = joi.object({
     status:joi.string().valid('WORKING','OUT_OF_SERVICE'),
     code:joi.string(),
     availibility:joi.number().integer().min(0).max(1).required(),
-    boardId:joi.string().required(),
+    boardID:joi.string().required(),
     doorNumber:joi.string().required(), 
     idcabine  : joi.required(),
    ref: joi.string()

@@ -1,8 +1,10 @@
 const db = require("../models");
-const Box = db.boxes;
-const Op = db.Sequelize.Op;
-const boxValidation = require("../validators/box_validation");
+const Box = db.box;
 
+const Op = db.Sequelize.Op;
+const Cabine =require("../models/cabine");
+// import {Cabine} from '../models/cabine'
+const boxValidation = require("../validators/box_validation");
 exports.create = (req, res) => {
   const { body } = req;
   console.log(body);
@@ -13,7 +15,7 @@ exports.create = (req, res) => {
   Box.create({ ...body })
 
     .then(() => {
-      res.status(201).json({ msg: "creation du box" });
+      res.status(200).json({ msg: "creation du box" });
     })
     .catch((error) => {
       res.status(500).json(error);
@@ -30,11 +32,60 @@ exports.getAll = (req, res) => {
 };
 exports.getOne = (req, res) => {
   const { id } = req.params;
-  Box.findByPk(id).then((box) => {
+  Box.findByPk(id, { include:
+   ['cabines']
+     }).then((box) => {
     if (!box) return res.status(404).json({ msg: "not found" });
     res.status(200).json(box);
   });
 };
+// exports.getOne =  async function (req, res, next) {
+
+//   try {
+
+//     const boxes=  await Box.findAll({
+//       include: [{ model: db.cabines,through: {
+//         attributes: []
+//       }}]
+//     })
+//     console.log({boxes})
+//     return res.status(200).send(boxes)
+    // Box.findByPk(1,{include: ['Cabine']})
+    //   .then((box) => {
+
+    //     res.status(200).send({
+
+    //       status: "success",
+
+    //       data: box,
+
+    //     });
+
+    //   })
+
+    //   .catch((err) => {
+
+    //     res.status(500).send({
+
+    //       status: "error",
+
+    //       message:
+
+    //         err.message || "Some error occurred while retrieving boxes.",
+
+    //     });
+
+    //   });
+
+//   } catch (error) {
+
+//     console.log(error);
+
+//     return res.status(500).send({ status: "error", message: error.message });
+
+//   }
+
+// };
 exports.deleteOne = (req, res) => {
   const { id } = req.params;
   Box.destroy({ where: { id: id } })

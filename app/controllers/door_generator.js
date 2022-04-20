@@ -1,9 +1,10 @@
 require("dotenv").config();
 const db = require("../models");
-const Box = db.boxes;
+const Box = db.box;
 const Op = db.Sequelize.Op;
 const nodemailer = require("nodemailer");
 const sendSms = require("../helpers/twilio");
+const mqtt = require('mqtt');
 
 exports.send = (req, res) => {
   const { id } = req.params;
@@ -14,7 +15,39 @@ exports.send = (req, res) => {
     box.code = body.code;
 
     box.save();
-
+    var client = mqtt.connect({
+      host: '51.91.182.130',
+      port:1883,
+      username:"halloul",
+  password:"654321"
+  });
+  const getData = () => ({
+     
+          DoorNumber: box.doorNumber,
+          BoardID: box.boardId,
+          
+      
+  })
+  const topic = 'M_01/OpenDoor';
+  client.on('connect',function(){
+    console.log('server connected to Mqtt broker');
+    client.subscribe("#" , function(err){
+        if(!err){
+        client.publish(topic, JSON.stringify(getData()))
+            return true
+        }
+        console.log(err);
+    });
+}); 
+client.on('message',function(topic,message){
+    console.log(`Message incoming topic:`, topic)
+    console.log(message.toString());
+});
+client
+    .on('error', function (topic, payload) {
+        console.log('Error:', topic, payload.toString());
+    });
+   
     let transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -42,6 +75,8 @@ exports.send = (req, res) => {
     });
     const Message= `welcome to lock box ! your code is ${box.code}`;
     sendSms(Message);
-    res.status(200).json({ code: box.code, msg: "email has been send" });
+    res.status(200).json({ code: box.code, msg: "email has been send and the door is opening" });
+    
   });
+  
 };

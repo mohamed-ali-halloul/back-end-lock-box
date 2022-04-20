@@ -1,5 +1,5 @@
 const db = require("../models");
-const Box = db.boxes;
+const Box = db.box;
 const Op = db.Sequelize.Op;
 const mqtt = require('mqtt');
 
@@ -110,7 +110,8 @@ exports.shortlink = (req, res) => {
 };
  exports.openDoor=(req,res)=>{
    const {id}= req.params;
-   Box.findByPk(id).then((box)=>{
+   const { body } = req;
+   Box.findByPk(id, ({include: ['Cabine']})).then((box)=>{
     if (!box) return res.status(404).json({ msg: "not found" });
     var client = mqtt.connect({
       host: '51.91.182.130',
@@ -127,6 +128,7 @@ exports.shortlink = (req, res) => {
   })
   const topic = 'M_01/OpenDoor';
   if (box.code === body.code){
+
   client.on('connect',function(){
       console.log('server connected to Mqtt broker');
       client.subscribe("#" , function(err){
@@ -145,9 +147,12 @@ exports.shortlink = (req, res) => {
       .on('error', function (topic, payload) {
           console.log('Error:', topic, payload.toString());
       });
+      res.status(200).json({msg:"code is correct and the door is opening"})
+      
     }else {
       res.status(404).json({ msg: "code is wrong" });
     }
+    
    })
   
  }

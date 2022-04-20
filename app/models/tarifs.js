@@ -10,18 +10,27 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      tarifs.belongsTo(models.sizes);
+      // define association here     
+      tarifs.belongsTo(models.sizes,{
+        allowNull: false,
+        foreignKey:'idsize',
+        as:'sizes',
+        onDelete:'CASCADE'
+      });
 
     }
   }
   tarifs.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     duration: DataTypes.STRING,
     price: DataTypes.DOUBLE,
     date_debut: DataTypes.DATE,
     display: DataTypes.INTEGER,
-    idsize: DataTypes.INTEGER
-
   }, {
     sequelize,
     modelName: 'tarifs',
