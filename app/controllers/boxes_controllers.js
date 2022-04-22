@@ -10,7 +10,7 @@ exports.create = (req, res) => {
   console.log(body);
   const { error } = boxValidation(body);
 
-  if (error) return res.status(401).json(error.details[0].message);
+  if (error) return res.status(400).json(error.details[0].message);
 
   Box.create({ ...body })
 
@@ -39,53 +39,7 @@ exports.getOne = (req, res) => {
     res.status(200).json(box);
   });
 };
-// exports.getOne =  async function (req, res, next) {
 
-//   try {
-
-//     const boxes=  await Box.findAll({
-//       include: [{ model: db.cabines,through: {
-//         attributes: []
-//       }}]
-//     })
-//     console.log({boxes})
-//     return res.status(200).send(boxes)
-    // Box.findByPk(1,{include: ['Cabine']})
-    //   .then((box) => {
-
-    //     res.status(200).send({
-
-    //       status: "success",
-
-    //       data: box,
-
-    //     });
-
-    //   })
-
-    //   .catch((err) => {
-
-    //     res.status(500).send({
-
-    //       status: "error",
-
-    //       message:
-
-    //         err.message || "Some error occurred while retrieving boxes.",
-
-    //     });
-
-    //   });
-
-//   } catch (error) {
-
-//     console.log(error);
-
-//     return res.status(500).send({ status: "error", message: error.message });
-
-//   }
-
-// };
 exports.deleteOne = (req, res) => {
   const { id } = req.params;
   Box.destroy({ where: { id: id } })
@@ -101,7 +55,7 @@ exports.deleteAll = (req, res) => {
     truncate: false,
   })
     .then((nums) => {
-      res.send({ message: `${nums}Boxes were deleted successfully!` });
+      res.status(200).send({ message: `${nums}Boxes were deleted successfully!` });
     })
     .catch((err) => {
       res.status(500).send({
@@ -126,7 +80,7 @@ exports.update = (req, res) => {
       box.doorNumber = body.doorNumber;
       box
         .save()
-        .then(() => res.status(201).json({ msg: "updated ressource" }))
+        .then(() => res.status(200).json({ msg: "updated ressource" }))
         .catch((error) => res.status(500).json(error));
     })
     .catch((error) => res.status(500).json(error));

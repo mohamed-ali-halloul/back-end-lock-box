@@ -126,7 +126,10 @@ exports.shortlink = (req, res) => {
           
       
   })
-  const topic = 'M_01/OpenDoor';
+  const  refcabine=  box.cabines.ref;
+
+  const topic = `${refcabine}/OpenDoor`;
+  const topicreply =`${refcabine}/OpenDoor/Reply`;
   if (box.code === body.code){
 
   client.on('connect',function(){

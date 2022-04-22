@@ -9,7 +9,9 @@ const mqtt = require('mqtt');
 exports.send = (req, res) => {
   const { id } = req.params;
   const { body } = req;
-  Box.findByPk(id).then((box) => {
+  Box.findByPk(id, { include:
+    ['cabines']
+      }).then((box) => {
     if (!box) return res.status(404).json({ msg: "not found" });
 
     box.code = body.code;
@@ -21,17 +23,22 @@ exports.send = (req, res) => {
       username:"halloul",
   password:"654321"
   });
+
   const getData = () => ({
      
           DoorNumber: box.doorNumber,
-          BoardID: box.boardId,
-          
+          BoardID: box.boardID,
       
-  })
-  const topic = 'M_01/OpenDoor';
+  });
+const  refcabine=  box.cabines.ref;
+
+ 
+  console.log('refcabine:',refcabine);
+  const topic = `${refcabine}/OpenDoor`;
+  const topicreply =`${refcabine}/OpenDoor/Reply`;
   client.on('connect',function(){
     console.log('server connected to Mqtt broker');
-    client.subscribe("#" , function(err){
+    client.subscribe(topicreply, function(err){
         if(!err){
         client.publish(topic, JSON.stringify(getData()))
             return true
@@ -41,7 +48,20 @@ exports.send = (req, res) => {
 }); 
 client.on('message',function(topic,message){
     console.log(`Message incoming topic:`, topic)
-    console.log(message.toString());
+   
+        console.log(message.toString());
+  let x=JSON.parse(message);
+    console.log("x",parseInt(x.OpenDoorReply) );
+    const num = parseInt(x.OpenDoorReply);
+    if(num===1){
+      client.unsubscribe("#");
+      client.end();
+       return res.status(200).send({msg:"success"})
+    }
+    else{ 
+      client.unsubscribe("#");
+      client.end();
+      return res.status(400).send({msg:"failed"}) }
 });
 client
     .on('error', function (topic, payload) {
@@ -75,7 +95,7 @@ client
     });
     const Message= `welcome to lock box ! your code is ${box.code}`;
     sendSms(Message);
-    res.status(200).json({ code: box.code, msg: "email has been send and the door is opening" });
+    // res.status(200).json({ code: box.code, msg: "email has been send and the door is opening" });
     
   });
   
