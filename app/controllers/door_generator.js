@@ -38,7 +38,7 @@ const  refcabine=  box.cabines.ref;
   const topicreply =`${refcabine}/OpenDoor/Reply`;
   client.on('connect',function(){
     console.log('server connected to Mqtt broker');
-    client.subscribe(topicreply, function(err){
+    client.subscribe('topicreply', function(err){
         if(!err){
         client.publish(topic, JSON.stringify(getData()))
             return true
@@ -54,13 +54,13 @@ client.on('message',function(topic,message){
     console.log("x",parseInt(x.OpenDoorReply) );
     const num = parseInt(x.OpenDoorReply);
     if(num===1){
-      client.unsubscribe("#");
-      client.end();
+      // client.unsubscribe("#");
+      // client.end();
        return res.status(200).send({msg:"success"})
     }
     else{ 
-      client.unsubscribe("#");
-      client.end();
+      // client.unsubscribe("#");
+      // client.end();
       return res.status(400).send({msg:"failed"}) }
 });
 client

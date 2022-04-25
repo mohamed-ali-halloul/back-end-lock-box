@@ -119,12 +119,28 @@ User.findByPk(id)
 user.username = body.username
 user.email = body.email
 user.password = body.password
-user.role = body.role
+
 user.save()
-.then(()=> res.status(201).json({msg:"updated ressource"}))
+.then(()=> res.status(200).json({msg:"updated ressource"}))
 .catch((error)=> res.status(500).json(error));
 
 })
+.catch((error)=> res.status(500).json(error));
+} 
+exports.genercode=(req,res)=>{
+    const {id}=req.params
+    const {body}=req;
+    console.log(body);
+    const {error} = userValidation(body).userValidationCode
+if(error) return res.status(400).json(error.details[0].message)
+User.findByPk(id)
+.then(user =>{
+        if(!user) return res.status(404).json({msg :"not found"})
+ user.code = body.code
+ user.save()
+.then(()=> res.status(200).json({msg:"code enregistré"}))
+.catch((error)=> res.status(500).json(error)); 
+    })
 .catch((error)=> res.status(500).json(error));
 }
   

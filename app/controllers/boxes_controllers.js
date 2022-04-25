@@ -2,7 +2,7 @@ const db = require("../models");
 const Box = db.box;
 
 const Op = db.Sequelize.Op;
-const Cabine =require("../models/cabine");
+
 // import {Cabine} from '../models/cabine'
 const boxValidation = require("../validators/box_validation");
 exports.create = (req, res) => {
@@ -22,7 +22,9 @@ exports.create = (req, res) => {
     });
 };
 exports.getAll = (req, res) => {
-  Box.findAll({ attributes: { exclude: ["createdAt", "updatedAt"] } })
+  Box.findAll( { include:
+    ['sizes','cabines']
+      }, { attributes: { exclude: ["createdAt", "updatedAt"] } })
     .then((boxes) => {
       res.status(200).json(boxes);
     })
@@ -33,7 +35,7 @@ exports.getAll = (req, res) => {
 exports.getOne = (req, res) => {
   const { id } = req.params;
   Box.findByPk(id, { include:
-   ['cabines']
+   ['sizes','cabines']
      }).then((box) => {
     if (!box) return res.status(404).json({ msg: "not found" });
     res.status(200).json(box);
