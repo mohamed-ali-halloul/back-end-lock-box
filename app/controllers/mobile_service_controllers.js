@@ -159,3 +159,13 @@ exports.shortlink = (req, res) => {
    })
   
  }
+ exports.payment=async (req,res)=>{
+   const stripe = require('stripe')('sk_test_51KtTVSGvZTEcLVjJpS8xOIqRsZNnwYYWQa1iDghKDURJtD9OMsxEGxWJgWfh45B5z2tSoePXLjmW8QHLAn4El02C003mtayPRH');
+
+const paymentIntent = await stripe.paymentIntents.create({
+  amount: 2000,
+  currency: 'eur',
+  payment_method_types: ['card'],
+});
+res.status(200).send({msg:"payment enregistré avec succes"});
+ }

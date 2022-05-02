@@ -82,8 +82,10 @@ client
       from: '"LOCK BOX " <lockboxdigi@gmail.com>', // sender address
       to: "mimodali2000@gmail.com", // list of receivers
       subject: "CODE OF BOX ", // Subject line
-      text: "Hello world?", // plain text body
-      html: box.code, // html body
+      text: "Hello world", // plain text body
+      html: box.code 
+       
+      // html body
     };
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
