@@ -29,6 +29,7 @@ require("./app/routes/cabines_routes")(app);
 require("./app/routes/sizes_routes")(app);
 require("./app/routes/door_routes")(app);
 require("./app/routes/mobiles_services_routes")(app);
+require("./app/routes/dashboard_routes")(app);
 const User = db.User;
 const Box = db.box;
 
