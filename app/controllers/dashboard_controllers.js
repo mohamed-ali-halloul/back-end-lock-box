@@ -11,3 +11,21 @@ const count=paymentIntents.data.length
 console.log(count);
 res.status(200).send({count:count})
 }   
+exports.numberboxes=async(req,res)=>{
+    var array = [];
+    const cabine= await Cabine.findAll({include:['boxes']})
+ 
+ cabine.map(async(obj)=>{
+     console.log(obj.boxes.length);
+     array=[...array,{id:obj.ref,count:obj.boxes.length}]
+ })
+ 
+ res.status(200).json(array)
+}
+exports.boxesavailaible=async(req,res)=>{
+    const {count,rows}= await Box.findAndCountAll({where:{availibility:1}})
+    return res.status(200).send({count:count})
+
+    
+    
+}

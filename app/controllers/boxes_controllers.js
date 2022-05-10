@@ -8,7 +8,7 @@ const boxValidation = require("../validators/box_validation");
 exports.create = (req, res) => {
   const { body } = req;
   console.log(body);
-  const { error } = boxValidation(body);
+  const { error } = boxValidation(body).boxValdiationSchema
 
   if (error) return res.status(400).json(error.details[0].message);
 
@@ -69,6 +69,9 @@ exports.update = (req, res) => {
   const { id } = req.params;
 
   const { body } = req;
+  const { error } = boxValidation(body).boxValidationUpdate
+
+  if (error) return res.status(400).json(error.details[0].message);
   Box.findByPk(id)
     .then((box) => {
       if (!box) return res.status(404).json({ msg: "not found" });
@@ -78,7 +81,7 @@ exports.update = (req, res) => {
       box.status = body.status;
       box.code = body.code;
       box.availibility = body.availibility;
-      box.boardId = body.boardId;
+      box.boardID = body.boardID;
       box.doorNumber = body.doorNumber;
       box
         .save()

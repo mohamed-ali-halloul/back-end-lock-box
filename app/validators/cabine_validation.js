@@ -5,7 +5,7 @@ const cabineValdiationSchema = joi.object({
     name  : joi.string().min(3).max(20).required(),
     network_type : joi.string(),
     mode: joi.string(),
-    shortLink: joi.string()
+    
 })
     return cabineValdiationSchema.validate(body)
 }
