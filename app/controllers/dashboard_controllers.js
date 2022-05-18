@@ -29,3 +29,7 @@ exports.boxesavailaible=async(req,res)=>{
     
     
 }
+exports.cabinesworking= async(req,res)=>{
+    const {count,rows}=await Cabine.findAndCountAll({where:{mode:"WORKING"}})
+    return res.status(200).send({count:count})
+}
