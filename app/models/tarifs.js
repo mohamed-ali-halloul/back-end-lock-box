@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     duration: DataTypes.STRING,
     price: DataTypes.DOUBLE,
-    date_debut: DataTypes.DATE,
     display: DataTypes.INTEGER,
   }, {
     sequelize,

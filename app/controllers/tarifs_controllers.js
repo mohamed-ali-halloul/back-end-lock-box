@@ -71,7 +71,6 @@ tarif.duration = body.duration
 tarif.price=body.price
 tarif.id=body.id
 tarif.display = body.display
-tarif.date_debut = body.date_debut
 tarif.save()
 .then(()=> res.status(201).json({msg:"updated ressource"}))
 .catch((error)=> res.status(500).json(error));

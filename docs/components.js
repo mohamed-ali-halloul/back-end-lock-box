@@ -151,11 +151,6 @@ module.exports ={
                     description:"price ",
                     example:"5",
                   },
-                  date_debut:{
-                    type:"date",
-                    description:"",
-                    example:"14:30",
-                  },
                   display:{
                     type:"integer",
                     description:"",
