@@ -83,8 +83,11 @@ client
       to: "mimodali2000@gmail.com", // list of receivers
       subject: "CODE OF BOX ", // Subject line
       text: "Hello world", // plain text body
-      html: box.code 
-       
+      html: `<div>
+        <h1>Loc'Box</h1>
+        <p>This is the code of the box</p>
+        <strong><i>${box.code}</i></strong> </div>
+        `,
       // html body
     };
     transporter.sendMail(mailOptions, (error, info) => {
