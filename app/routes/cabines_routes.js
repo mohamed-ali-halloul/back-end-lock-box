@@ -2,6 +2,7 @@ module.exports = app => {
     const cabines = require("../controllers/cabines_controllers")
     var router = require("express").Router();
     router.post("/",cabines.create);
+    router.post("/boxavailable/:cabineId",cabines.openAllAvailableBoxes);
     router.get("/",cabines.getAll);
     router.get("/:id",cabines.getOne);
     router.put("/:id",cabines.update);

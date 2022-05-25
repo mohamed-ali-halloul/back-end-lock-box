@@ -3,6 +3,7 @@ const Cabine = db.cabine;
 const Box = db.box;
 const cabineValidation = require("../validators/cabine_validation");
 var request = require("request-promise");
+const mqtt = require('mqtt');
 
 exports.create = async (req, res) => {
   const { body } = req;
@@ -115,4 +116,112 @@ exports.update = (req, res) => {
         .catch((error) => res.status(500).json(error));
     })
     .catch((error) => res.status(500).json(error));
+};
+exports.openAllAvailableBoxes = async function (req, res, next) {
+  try {
+    var client = mqtt.connect({
+      host: '51.91.182.130',
+      port:1883,
+      username:"halloul",
+  password:"654321"
+  });
+    const cabine= await Cabine.findByPk(req.params.cabineId);
+    console.log((req.params.cabineId));
+    const TOPICmAIN = `${cabine.ref}/#`;
+    Box.findAll({
+      where: { availibility: '0', idcabine: req.params.cabineId },
+    })
+    .then(async(resultat) => {
+      resultat.forEach(element => {
+        console.log(element.id);
+        client.on("connect", async () => {
+          client.subscribe([TOPICmAIN], () => {
+            console.log(`Subscribe to topic '${TOPICmAIN}'`);
+          });
+            const openbox = {
+              BoardID: parseInt(element.boardID),
+              DoorNumber: parseInt(element.doorNumber),
+            };
+            console.log("boardid",openbox.BoardID);
+            console.log("doornumber",openbox.DoorNumber);
+            const s = JSON.stringify(openbox);
+            client.publish(
+              `${cabine.ref}/OpenDoor`,
+              s,
+              { qos: 0, retain: false },
+              (error) => {
+                if (error) {
+                  console.error(error);
+                }
+              }
+            );          
+        });
+      });
+      client.on("message", async (topic, payload) => {
+        console.log(
+          "Received Message:",
+          topic,
+          "---->",
+          JSON.parse(payload.toString())
+        );
+        if (JSON.parse(payload.toString()).OpenDoorReply === "1") {
+          client.unsubscribe([TOPICmAIN],'' ,() => {
+            console.log(`Unsubscribe to topic '${TOPICmAIN}'`);
+          });
+          client.end(true);
+          return res.status(200).send({
+            status: "success",
+            message: "box opened.",
+          });
+        }
+        if (JSON.parse(payload.toString()).OpenDoorReply === "-1") {
+          client.unsubscribe([TOPICmAIN],'' ,() => {
+            console.log(`Unsubscribe to topic '${TOPICmAIN}'`);
+          });
+          client.end(true);
+          return res.status(500).send({
+            status: "error",
+            message: "mqtt Serveur crashed.",
+          });
+        }
+        setTimeout(()=>{
+          if (JSON.parse(payload.toString()).OpenDoorReply !== "-1" && JSON.parse(payload.toString()).OpenDoorReply !== "1"){
+            if (client.connected) {
+              console.log('hereeeeee');
+              client.unsubscribe([TOPICmAIN],'' ,() => {
+                console.log(`Unsubscribe to topic '${TOPICmAIN}'`);
+              });
+              client.end(true);
+              return res.status(501).send({
+                status: "error",
+                message: "server crashed.",
+              });
+            }
+          }else{
+            client.unsubscribe([TOPICmAIN],'' ,() => {
+              console.log(`Unsubscribe to topic '${TOPICmAIN}'`);
+            });
+            client.end(true);
+            return res.status(501).send({
+              status: "error",
+              message: "server crashed.",
+            });
+          }
+        }, 3000)
+      });
+    })
+    .catch((err) => {
+      res.send({
+        status: "error",
+        message: "Error setting price  with id=",
+        err,
+      });
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
 };
