@@ -87,6 +87,7 @@ else{
 
    } });
 });
-app.listen(3001, () => {
-  console.log("server is running on port 3001");
+app.listen(3002, () => {
+  console.log("server is running on port 3002");
+  console.log(process.env.API_URL);
 });
