@@ -38,13 +38,13 @@ exports.connexion = (req,res)=> {
     // chercher user dans BD
     User.findOne({ where: { email: email } })
     .then(user => {
-        if(!user) return res.status(404).json({msg:"user not found"})
+        if(!user) return res.status(404).json("invalid Credentials")
         //verifier mdp
         console.log(user);
         bcrypt.compare(password, user.password)
         .then(match => {
             console.log(match);
-            if(!match) return res.status(500).json({ msg :"server ,jgError" })
+            if(!match) return res.status(500).json("invalid Credentials" )
             res.status(200).json({
                 email : user.email,
                 username: user.username,
