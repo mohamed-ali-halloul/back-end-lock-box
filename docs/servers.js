@@ -5,7 +5,7 @@ module.exports = {
         description: "Local server", 
       },
       {
-        url:`${process.env.API_URL}/api`,
+        url:"https://dev-bo-lockbox.diginov.tech/api",
         description:"prod server"
       }
     ],

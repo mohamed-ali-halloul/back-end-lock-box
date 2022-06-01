@@ -6,15 +6,32 @@ const swaggerJsDocs = require("./docs/index");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const mqtt = require("mqtt");
-
+const fs = require('fs')
+const path = require('path')
+const KEY = fs.readFileSync(path.join(__dirname, './client.key'))
+const CERT = fs.readFileSync(path.join(__dirname, './client.crt'))
+const TRUSTED_CA_LIST = fs.readFileSync(path.join(__dirname, './ca.crt'))
 require("./app/middlewares/authJwt");
-var client = mqtt.connect({
-    host: '51.91.182.130',
-    port:1883,
-    username:"halloul",
-password:"654321"
-});
+const PORT=30000
+const HOST= 'mosquitto.dev.locbox.l-wa.com'
 
+const options = {
+  username: 'locbox_dev',
+  password:'laintAyak9Wrykrv%ov5',
+  port: PORT,
+  host: HOST,
+  key: KEY,
+  cert: CERT,
+  rejectUnauthorized: true,
+  // The CA list will be used to determine if server is authorized
+  ca: TRUSTED_CA_LIST,
+  protocol: 'mqtts'
+}
+var client = mqtt.connect(options);
+global.clientMqtt=client
+clientMqtt.on("connect",  () => {
+  console.log("mqtt connected");
+});
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
@@ -87,6 +104,7 @@ else{
 
    } });
 });
+
 app.listen(3002, () => {
   console.log("server is running on port 3002");
   console.log(process.env.API_URL);
