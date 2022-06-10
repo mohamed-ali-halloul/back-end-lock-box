@@ -2,8 +2,18 @@ const db = require("../models");
 const Box = db.box;
 const Op = db.Sequelize.Op;
 const mqtt = require('mqtt');
+const fs = require('fs')
+const path = require('path')
+const KEY = fs.readFileSync(path.join(__dirname, '../../client.key'))
+const CERT = fs.readFileSync(path.join(__dirname, '../../client.crt'))
+const TRUSTED_CA_LIST = fs.readFileSync(path.join(__dirname, '../../ca.crt'))
+
+const PORT=30000
+const HOST= 'mosquitto.dev.locbox.l-wa.com'
+
 
 var request = require("request-promise");
+
 exports.displayallboxesbyidcabine = (req, res) => {
   const { id } = req.params;
   const { body } = req;
@@ -111,14 +121,21 @@ exports.shortlink = (req, res) => {
  exports.openDoor=(req,res)=>{
    const {id}= req.params;
    const { body } = req;
-   Box.findByPk(id, ({include: ['Cabine']})).then((box)=>{
+   Box.findByPk(id, ({include: ['cabines']})).then((box)=>{
     if (!box) return res.status(404).json({ msg: "not found" });
-    var client = mqtt.connect({
-      host: '51.91.182.130',
-      port:1883,
-      username:"halloul",
-  password:"654321"
-  });
+    const options = {
+      username: 'locbox_dev',
+      password:'laintAyak9Wrykrv%ov5',
+      port: PORT,
+      host: HOST,
+      key: KEY,
+      cert: CERT,
+      rejectUnauthorized: true,
+      // The CA list will be used to determine if server is authorized
+      ca: TRUSTED_CA_LIST,
+      protocol: 'mqtts'
+    }
+    var client = mqtt.connect(options);
   const getData = () => ({
      
           DoorNumber: box.doorNumber,
@@ -132,7 +149,7 @@ exports.shortlink = (req, res) => {
   const topicreply =`${refcabine}/OpenDoor/Reply`;
   if (box.code === body.code){
 
-  client.on('connect',function(){
+  
       console.log('server connected to Mqtt broker');
       client.subscribe("#" , function(err){
           if(!err){
@@ -141,7 +158,7 @@ exports.shortlink = (req, res) => {
           }
           console.log(err);
       });
-  }); 
+ 
   client.on('message',function(topic,message){
       console.log(`Message incoming topic:`, topic)
       console.log(message.toString());
